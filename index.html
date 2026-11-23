@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BREAK | Pausas Activas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">⚡</div>
+      <div>
+        <h1>BREAK</h1>
+        <small>ACTIVIDADES DE MOTIVACIÓN</small>
+      </div>
+    </div>
+
+    <!-- Botón Mis rutinas arriba: abre la lista de pausas creadas -->
+    <div class="acciones-topbar">
+      <button class="mis-rutinas-btn" type="button" onclick="abrirMisRutinas()">
+        📋 Mis rutinas (<span id="contadorMisRutinas">0</span>)
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>¡Es hora de hacer una pausa !</h2>
+    <p>Movete, divertite y recuperá tu energía.<br>
+    Una pausa activa puede cambiar el ritmo de la clase.</p>
+  </div>
+</header>
+
+<main>
+
+  <h3 class="section-title">Explorá las actividades</h3>
+
+  <!-- Tarjetas de categorías: abren la lista de pausas del tipo elegido -->
+  <div class="quick-categories">
+    <div class="category-card" onclick="abrirListaCategoria('Baile')"><span>💃</span><strong>Baile</strong></div>
+    <div class="category-card" onclick="abrirListaCategoria('Movimiento')"><span>🏃</span><strong>Movimiento</strong></div>
+    <div class="category-card" onclick="abrirListaCategoria('Canto')"><span>🎤</span><strong>Canto</strong></div>
+    <div class="category-card" onclick="abrirListaCategoria('Palabras')"><span>🗣️</span><strong>Palabras</strong></div>
+    <div class="category-card" onclick="abrirListaCategoria('Mental')"><span>🧠</span><strong>Mental</strong></div>
+    <div class="category-card" onclick="abrirListaCategoria('Grupal')"><span>🤝</span><strong>Grupal</strong></div>
+  </div>
+
+  <div class="panels">
+
+    <section class="panel">
+
+      <h3>🎡 Ruleta </h3>
+      <p class="subtitle">
+        ¡Dejá que el azar elija la categoría de tu próxima pausa!
+      </p>
+
+      <div class="wheel-area">
+        <div class="pointer">▼</div>
+
+        <div class="wheel" id="wheel">
+
+          <div class="wheel-label" style="--angle:30deg;--reverse:-30deg">💃</span><strong>Baile</strong></div>
+          <div class="wheel-label" style="--angle:90deg;--reverse:-90deg">🏃<br>MOVIMIENTO</div>
+          <div class="wheel-label" style="--angle:150deg;--reverse:-150deg">🎤<br>CANTO</div>
+          <div class="wheel-label" style="--angle:210deg;--reverse:-210deg">🗣️<br>PALABRAS</div>
+          <div class="wheel-label" style="--angle:270deg;--reverse:-270deg">🧠<br>MENTAL</div>
+          <div class="wheel-label" style="--angle:330deg;--reverse:-330deg">🤝<br>GRUPAL</div>
+
+          <div class="wheel-center">⚡</div>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="spinBtn" type="button" onclick="girarRuleta()">
+        🎯 GIRAR RULETA
+      </button>
+
+      <div id="ruletaResultado" class="result"></div>
+
+    </section>
+
+    <!-- ASISTENTE Y GENERADOR -->
+
+    <section class="panel">
+
+      <h3>🤖 Asistente BREAK</h3>
+      <p class="subtitle">
+        Creá tu propia pausa activa, usá tu voz o escuchá la actividad.
+      </p>
+
+      <!-- Cumple la función de crear/agregar una pausa activa -->
+      <button class="primary-btn" type="button" onclick="abrirModalCrear()">
+        ✨ CREAR MI PAUSA
+      </button>
+
+      <button class="voice-btn" id="voiceBtn" type="button" onclick="escuchar()">
+        🎙️ HABLAR CON BREAK
+      </button>
+
+      <button class="secondary-btn" type="button" onclick="leerResultado()">
+        🔊 ESCUCHAR ACTIVIDAD
+      </button>
+
+      <div class="voice-status" id="voiceStatus">
+        🎧 Asistente listo. Podés crear una pausa o utilizar el micrófono.
+      </div>
+      <div class="music-box">
+        <button id="btnElegirCancion" class="music-dropdown-btn" type="button" aria-expanded="false">
+          🎵 Elige una canción ▾
+        </button>
+
+        <div id="menuCanciones" class="music-menu oculto">
+          <button type="button" class="song-option" data-src="audio/cancion.mp3">
+            ▶️ 1. Canción 1
+          </button>
+          <button type="button" class="song-option" data-src="audio/cancion1.mp3">
+            ▶️ 2. Canción 2
+          </button>
+          <button type="button" class="song-option" data-src="audio/cancion2.mp3">
+            ▶️ 3. Canción 3
+          </button>
+          <button type="button" class="song-option" data-src="audio/cancion3.mp3">
+            ▶️ 4. Canción 4
+          </button>
+           <button type="button" class="song-option" data-src="audio/cancion4.mp3">
+            ▶️ 5. Canción 5
+          </button>
+           <button type="button" class="song-option" data-src="audio/cancion5.mp3">
+            ▶️ 6. Canción 6
+          </button>
+          <button type="button" id="btnDetenerCancion" class="song-stop oculto">
+            ⏹️ Detener música
+          </button>
+         
+        </div>
+      </div>
+
+      <audio id="audioPausa" loop></audio>
+
+      <div id="personalResultado" class="result"></div>
+
+    </section>
+
+  </div>
+
+  <div class="stats">
+    <div>
+      <strong id="totalGeneradas">0</strong>
+      <span>Pausas generadas</span>
+    </div>
+    <div>
+      <strong id="totalDisponibles">∞</strong>
+      <span>Actividades disponibles</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  ⚡ BREAK | Pausas activas para estudiantes del nivel secundario
+  <br><br>
+  Una pausa para activar el cuerpo y la mente.
+</footer>
+
+<!-- ==========================================
+     VENTANA MODAL: LISTA DE PAUSAS ACTIVAS
+     ========================================== -->
+<div id="modalLista" class="modal-overlay oculto">
+  <div class="modal-lista-caja">
+
+    <div class="modal-header-celeste">
+      <button class="btn-flecha" type="button" onclick="cerrarModales()">←</button>
+      <h3 id="tituloModalLista">Categoría</h3>
+    </div>
+
+    <div id="contenedorItemsLista" class="modal-items-lista">
+      <!-- Aquí JavaScript dibuja cada pausa activa -->
+    </div>
+
+    <!-- Botones flotantes inferiores: Iniciar y Agregar -->
+    <div class="modal-footer-flotante">
+      <button class="btn-flotante-iniciar" type="button" onclick="iniciarListaActual()">
+        ▶<br><span>Iniciar</span>
+      </button>
+      <button class="btn-flotante-agregar" type="button" onclick="abrirModalCrear()">
+        +<br><span>Agregar</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==========================================
+     VENTANA MODAL: CREAR NUEVA PAUSA ACTIVA
+     ========================================== -->
+<div id="modalCrear" class="modal-overlay oculto">
+  <div class="modal-form-caja">
+    <h3>➕ Nueva pausa activa</h3>
+    <p class="subtitle">Completá los datos para guardar tu rutina.</p>
+
+    <label for="nuevoTitulo">Nombre de la pausa</label>
+    <input type="text" id="nuevoTitulo" placeholder="Ej: Estiramiento de cuello y hombros">
+
+    <label for="nuevaCategoria">Categoría</label>
+    <select id="nuevaCategoria">
+      <option value="Baile">💃 Baile</option>
+      <option value="Movimiento" selected>🏃 Movimiento</option>
+      <option value="Canto">🎤 Canto</option>
+      <option value="Palabras">🗣️ Palabras</option>
+      <option value="Mental">🧠 Mental</option>
+      <option value="Grupal">🤝 Grupal</option>
+    </select>
+
+    <label for="nuevaDuracion">Duración (en segundos)</label>
+    <input type="number" id="nuevaDuracion" value="20" min="5" max="600">
+
+    <label for="nuevoPaso">Instrucción principal</label>
+    <textarea id="nuevoPaso" placeholder="Ej: Girá suavemente la cabeza hacia un lado y luego al otro."></textarea>
+
+    <div class="modal-form-botones">
+      <button class="btn-cancelar-modal" type="button" onclick="cerrarModales()">Cancelar</button>
+      <button class="btn-guardar-modal" type="button" onclick="guardarPausaUsuario()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     VENTANA MODAL: EXPLICACIÓN DE LA PAUSA
+     ========================================== -->
+<div id="modalExplicacion" class="modal-overlay oculto" onclick="cerrarModalExplicacionFondo(event)">
+  <div class="modal-explicacion-caja">
+    <button class="btn-cerrar-explicacion" type="button" onclick="cerrarModalExplicacion()" aria-label="Cerrar">✕</button>
+    <div id="contenidoModalExplicacion"></div>
+  </div>
+</div>
+
+<script>
+
+// ==================================
+// 1. DATOS DEL GENERADOR
+// ==================================
+
+const categorias = [
+  "Baile",
+  "Movimiento",
+  "Canto",
+  "Palabras",
+  "Mental",
+  "Grupal"
+];
+
+const emojis = {
+  "Baile": "💃",
+  "Movimiento": "🏃",
+  "Canto": "🎤",
+  "Palabras": "🗣️",
+  "Mental": "🧠",
+  "Grupal": "🤝"
+};
+
+const actividades = {
+
+  "Baile": [
+    {
+      titulo: "Baile de los 4 pasos",
+      segundos: 130,
+      destacado: "🎵 Pasos: costado, giro, palmada, salto",
+      pasos: [
+        "Todos de pie con un poco de espacio alrededor.",
+        "Aprendan los 4 pasos: 1) dos pasos a la derecha, 2) giro completo, 3) dos palmadas arriba de la cabeza, 4) salto con brazos abiertos.",
+        "Háganlos seguidos contando en voz alta \"1-2-3-4\" y repitan 4 veces.",
+        "Segunda vuelta al doble de velocidad."
+      ]
+    },
+    {
+      titulo: "Robot y Gelatina",
+      segundos: 120,
+      destacado: "🎵 Cambio cada 8 tiempos (el docente cuenta)",
+      pasos: [
+        "Todos de pie. Durante 8 tiempos bailan como ROBOTS: movimientos duros y cortados.",
+        "En los siguientes 8 tiempos bailan como GELATINA: todo el cuerpo suelto y blando.",
+        "Alternen robot y gelatina 4 veces.",
+        "Última ronda: 4 tiempos de cada uno, más rápido."
+      ]
+    },
+    {
+      titulo: "Congelados",
+      segundos: 120,
+      destacado: "🎵 Ritmo: palmas del docente. Señal: \"¡Estatua!\"",
+      pasos: [
+        "El docente marca un ritmo con palmas y todos bailan libremente.",
+        "Cuando el docente grita \"¡Estatua!\", todos se congelan en la pose más graciosa que se les ocurra durante 5 segundos.",
+        "Repitan 5 rondas. En cada una el docente cambia la velocidad de las palmas."
+      ]
+    },
+    {
+      titulo: "Espejo en parejas",
+      segundos: 130,
+      destacado: "🎵 Cambio de líder cada 30 segundos",
+      pasos: [
+        "Formen parejas frente a frente. Una persona es el líder y la otra es el espejo.",
+        "El líder hace movimientos lentos de brazos, cabeza y hombros; el espejo los copia al mismo tiempo.",
+        "A los 30 segundos el docente dice \"¡Cambio!\" y se invierten los roles.",
+        "Última ronda: sin líder fijo, intenten moverse sincronizados."
+      ]
+    },
+    {
+      titulo: "Lluvia en el pupitre",
+      segundos: 120,
+      destacado: "🎵 Sonidos: dedos → palmas en muslos → puños en el pupitre",
+      sentado: true,
+      pasos: [
+        "Todos sentados. Empiezan con la LLOVIZNA: golpecitos suaves de dedos sobre el pupitre.",
+        "Pasan a la LLUVIA: palmas sobre los muslos, más fuerte.",
+        "Llega la TORMENTA: puños sobre el pupitre y pisotones suaves.",
+        "Bajan de nuevo: lluvia, llovizna y silencio total."
+      ]
+    },
+    {
+      titulo: "Ola de brazos",
+      segundos: 120,
+      destacado: "🎵 Orden: fila 1 → fila 2 → fila 3...",
+      sentado: true,
+      pasos: [
+        "Cada fila levanta los brazos moviéndolos como una ola, una después de otra, de adelante hacia atrás.",
+        "Repitan la ola de atrás hacia adelante.",
+        "Ahora la ola va más rápida, con baile de hombros incluido."
+      ]
+    }
+  ],
+
+  "Movimiento": [
+    {
+      titulo: "Movimientos cruzados",
+      segundos: 120,
+      destacado: "🎯 Mano derecha ↔ rodilla izquierda",
+      pasos: [
+        "De pie. Toquen la rodilla izquierda con la mano derecha y luego la rodilla derecha con la mano izquierda. Háganlo 10 veces.",
+        "Ahora lleven el codo derecho a la rodilla izquierda y viceversa, 10 veces.",
+        "Por último, toquen el talón izquierdo hacia atrás con la mano derecha y viceversa, 10 veces."
+      ]
+    },
+    {
+      titulo: "Zoológico de 5 animales",
+      segundos: 120,
+      destacado: "🎯 Pingüino, canguro, cangrejo, elefante y serpiente",
+      pasos: [
+        "Cada animal dura 20 segundos y todos lo imitan.",
+        "PINGÜINO: caminar con las piernas juntas y los brazos pegados al cuerpo.",
+        "CANGURO: saltos suaves en el lugar con las manos como patitas.",
+        "CANGREJO: caminar de costado con las manos arriba como pinzas.",
+        "ELEFANTE: un brazo de trompa que se balancea y pasos pesados.",
+        "SERPIENTE: ondular brazos y torso."
+      ]
+    },
+    {
+      titulo: "Reloj humano",
+      segundos: 120,
+      destacado: "🎯 Brazos como agujas: 12, 3, 6 y 9",
+      pasos: [
+        "De pie, los brazos juntos hacia arriba son las 12; el brazo derecho recto al costado son las 3; los brazos hacia abajo son las 6; el izquierdo al costado son las 9.",
+        "El docente dice una hora (\"las 3\", \"las 9\", \"las 12\") y todos hacen la posición.",
+        "Repitan con 10 horas seguidas, cada vez más rápido."
+      ]
+    },
+    {
+      titulo: "Estiramiento express",
+      segundos: 120,
+      destacado: "🎯 5 estiramientos de 10 segundos",
+      sentado: true,
+      pasos: [
+        "CUELLO: inclinar la cabeza hacia la derecha 10 segundos y luego hacia la izquierda.",
+        "HOMBROS: girarlos 10 veces hacia atrás.",
+        "MUÑECAS: hacer círculos con las manos, 10 hacia cada lado.",
+        "ESPALDA: entrelazar las manos, estirar los brazos hacia arriba y sostener 10 segundos.",
+        "Cerrar con una respiración profunda."
+      ]
+    },
+    {
+      
+    titulo: "Simón dice",
+      segundos: 125,
+      destacado: "🎯 Solo se obedece si el docente dice \"Simón dice\"",
+      pasos: [
+        "Todos de pie. El docente da órdenes: \"Simón dice tocá tu nariz\", \"Simón dice saltá 3 veces\", \"Simón dice girá\", \"Simón dice agachate\".",
+        "Si la orden NO empieza con \"Simón dice\", nadie debe moverse.",
+        "Quien se equivoca da un salto en el lugar y sigue jugando.",
+        "Jueguen 10 órdenes."
+      ]
+    },
+    {
+      titulo: "Equilibrio flamenco",
+      segundos: 120,
+      destacado: "🎯 10 segundos por pierna, 2 vueltas",
+      pasos: [
+        "De pie, levanten la pierna derecha y mantengan el equilibrio 10 segundos con los brazos abiertos.",
+        "Cambien de pierna.",
+        "Segunda vuelta: hagan 5 palmadas mientras mantienen el equilibrio."
+      ]
+    }
+  ],
+
+  "Canto": [
+    {
+      titulo: "Ronda de sonidos",
+      segundos: 120,
+      destacado: "🎵 Sonidos: \"tsss\", \"pum-pum\", \"ta-ka-ta-ka\", \"uuuh\"",
+      pasos: [
+        "Dividan el aula en 4 sectores. Cada sector tiene un sonido: Sector 1 \"tsss\" (serpiente), Sector 2 \"pum-pum\" (golpes en el pecho), Sector 3 \"ta-ka-ta-ka\" (chasquear la lengua), Sector 4 \"uuuh\" (fantasma).",
+        "El docente señala un sector y ese grupo hace su sonido; al señalar otro, cambia.",
+        "Después el docente señala dos sectores a la vez, y por último a todos juntos."
+      ]
+    },
+    {
+      titulo: "Escalera de vocales",
+      segundos: 120,
+      destacado: "🎵 A - E - I - O - U, cada vocal más aguda",
+      pasos: [
+        "Canten cada vocal larga y subiendo de tono: A (grave), E, I, O, U (aguda).",
+        "Ahora bajen la escalera: U, O, I, E, A.",
+        "Repítanlo cantando suave, y luego cantando fuerte.",
+        "Última ronda: cada fila canta una vocal distinta al mismo tiempo."
+      ]
+    },
+    {
+      titulo: "Pisotón, pisotón, palmada",
+      segundos: 120,
+      destacado: "🎵 Ritmo: pisotón - pisotón - palmada - \"¡Hey!\"",
+      pasos: [
+        "Todos de pie. Hagan dos pisotones y una palmada, y griten \"¡Hey!\".",
+        "Repitan el patrón 8 veces siguiendo el mismo ritmo.",
+        "Segunda vuelta: reemplacen el \"¡Hey!\" por el nombre de un compañero distinto cada vez."
+      ]
+    },
+    {
+      titulo: "Canción con 3 palabras",
+      segundos: 130,
+      destacado: "🎵 Palabras: \"pizza\", \"lunes\", \"zapatilla\"",
+      sentado: true,
+      pasos: [
+        "Elijan un ritmo de cumbia: \"pa-pa-pam, pa-pa-pam\".",
+        "Inventen entre todos una canción de 4 frases que use las palabras pizza, lunes y zapatilla.",
+        "Cada fila canta una frase.",
+        "Canten la canción completa todos juntos."
+      ]
+    },
+    {
+      titulo: "Beatbox de aula",
+      segundos: 120,
+      destacado: "🎵 Patrón: pum - tss - kah - tss",
+      sentado: true,
+      pasos: [
+        "Practiquen el patrón con la boca: \"pum\" (labios), \"tss\" (dientes), \"kah\" (sonido seco), \"tss\".",
+        "Dividan el curso en 4 grupos. El grupo 1 empieza a repetir el patrón.",
+        "Cada 4 repeticiones se suma un grupo nuevo, hasta que suenen los 4 a la vez."
+      ]
+    },
+    {
+      titulo: "Eco musical",
+      segundos: 120,
+      destacado: "🎵 Melodía: do-re-mi-fa-sol-fa-mi-re-do",
+      sentado: true,
+      pasos: [
+        "El docente canta \"la-la-LA\" y todos repiten como eco.",
+        "Luego canta \"do-re-mi-fa-sol\" y todos repiten.",
+        "Después canta la escalera completa: \"do-re-mi-fa-sol-fa-mi-re-do\".",
+        "Un estudiante voluntario canta su propia frase y todos la repiten."
+      ]
+    }
+  ],
+
+  "Palabras": [
+    {
+      titulo: "Tres tristes tigres",
+      segundos: 120,
+      destacado: "🗣️ \"Tres tristes tigres tragan trigo en un trigal.\"",
+      sentado: true,
+      pasos: [
+        "Léanlo juntos una vez, bien lento.",
+        "Repítanlo a velocidad normal.",
+        "Repítanlo lo más rápido posible. Quien se trabe, se levanta y sigue de pie."
+      ]
+    },
+    {
+      titulo: "Pablito y el clavito",
+      segundos: 120,
+      destacado: "🗣️ \"Pablito clavó un clavito. ¿Qué clavito clavó Pablito?\"",
+      sentado: true,
+      pasos: [
+        "Primera vuelta: dicho en susurro.",
+        "Segunda vuelta: con voz de robot.",
+        "Tercera vuelta: lo más rápido posible, todos juntos."
+      ]
+    },
+    {
+      titulo: "Rimas relámpago",
+      segundos: 25,
+      destacado: "🗣️ Palabras de partida: \"gato\" y \"luna\"",
+      sentado: true,
+      pasos: [
+        "El docente dice \"gato\". Cada estudiante, por turno, dice una rima (pato, plato, rato, zapato...) en menos de 5 segundos y sin repetir.",
+        "Cuando alguien no puede, empieza una nueva ronda con \"luna\" (cuna, fortuna, aceituna...).",
+        "Jueguen hasta completar todo el curso."
+      ]
+    },
+    {
+      titulo: "Animales alfabéticos",
+      segundos: 120,
+      destacado: "🗣️ Categoría: animales, de la A a la Z",
+      sentado: true,
+      pasos: [
+        "El primer estudiante dice un animal con A (águila), el segundo uno con B (ballena), el tercero con C, y así.",
+        "Si alguien se queda sin palabra, el grupo lo ayuda gritando pistas.",
+        "Si llegan a la Z, vuelven a empezar con otra categoría: comidas."
+      ],
+     },
+    {
+      titulo: "Frase loca de 5 palabras",
+      segundos: 180,
+      destacado: "🗣️ Palabras: bicicleta, volcán, queso, mañana, zapato",
+      sentado: true,
+      pasos: [
+        "Escriban las 5 palabras en el pizarrón.",
+        "Cada estudiante agrega una palabra a una frase que use todas.",
+        "Lean la frase final en voz alta con tono dramático."
+      ],
+      materiales: "Pizarrón o papel."
+    },
+    {
+      titulo: "El cielo enladrillado",
+      segundos: 120,
+      destacado: "🗣️ \"El cielo está enladrillado, ¿quién lo desenladrillará?\"",
+      sentado: true,
+      pasos: [
+        "Repítanlo lento todos juntos.",
+        "Repítanlo susurrando.",
+        "Compitan: cada fila lo dice lo más rápido posible. Gana la que no se trabe."
+      ]
+    }
+  ],
+
+  "Mental": [
+    {
+      titulo: "Memoria de palmadas",
+      segundos: 120,
+      destacado: "🧠 Secuencia: palma, palma, chasquido, pisotón",
+      pasos: [
+        "El docente hace la secuencia una vez y todos la repiten.",
+        "Después agrega un movimiento nuevo cada ronda: golpe en el pecho, giro, salto.",
+        "Todos deben repetir la secuencia completa sin errores."
+      ]
+    },
+    {
+      titulo: "Contar sin el 3",
+      segundos: 120,
+      destacado: "🧠 Cada número con 3 o múltiplo de 3 se reemplaza por \"¡Break!\"",
+      sentado: true,
+      pasos: [
+        "Cuenten en ronda desde el 1: 1, 2, ¡Break!, 4, 5, ¡Break!, 7, 8, ¡Break!, 10, 11, ¡Break!, ¡Break!...",
+        "Quien se equivoca reinicia la cuenta desde 1.",
+        "Intenten llegar al 30."
+      ]
+    },
+    {
+      titulo: "Memoria de 6 palabras",
+      segundos: 120,
+      destacado: "🧠 Mochila, jirafa, ventana, pelota, cohete, mate",
+      sentado: true,
+      pasos: [
+        "El docente lee las 6 palabras una sola vez.",
+        "Los estudiantes las repiten en el mismo orden.",
+        "Segunda ronda: repetirlas al revés (mate, cohete, pelota...)."
+      ]
+    },
+    {
+      titulo: "Derecha e izquierda trampa",
+      segundos: 120,
+      destacado: "🧠 Escuchá la orden, no copies el ejemplo",
+      pasos: [
+        "El docente dice \"tocá tu oreja derecha\" pero se toca la izquierda.",
+        "Todos deben obedecer la orden, no copiar al docente.",
+        "Prueben 8 órdenes seguidas: mano izquierda en el hombro, codo derecho a la rodilla, etc."
+      ]
+    },
+    {
+      titulo: "El juego del contrario",
+      segundos: 120,
+      destacado: "🧠 Arriba ↔ abajo, derecha ↔ izquierda, sí ↔ no",
+      sentado: true,
+      pasos: [
+        "El docente dice una palabra y todos responden el contrario con un gesto: ARRIBA (señalan abajo), DERECHA (señalan la izquierda), SÍ (dicen \"no\").",
+        "Jueguen 10 órdenes.",
+        "Aumenten la velocidad en las últimas 5."
+      ]
+    },
+    {
+      titulo: "Mímica de profesiones",
+      segundos: 120,
+      destacado: "🧠 Profesiones: panadero, astronauta, DJ, bombero",
+      sentado: true,
+      pasos: [
+        "Un voluntario recibe una profesión al oído y la representa con mímica sin hablar.",
+        "El resto tiene 20 segundos para adivinar.",
+        "Quien acierta pasa a actuar la siguiente profesión."
+      ]
+    }
+  ],
+
+  "Grupal": [
+    {
+      titulo: "Aplauso en cadena",
+      segundos: 120,
+      destacado: "🤝 El aplauso viaja de a uno",
+      sentado: true,
+      pasos: [
+        "En ronda, la primera persona aplaude y mira a la siguiente, que aplaude y pasa el aplauso.",
+        "Segunda vuelta: el aplauso va en sentido contrario.",
+        "Tercera vuelta: se puede saltear a una persona, mirándola a los ojos."
+      ]
+    },
+    {
+      titulo: "Estatua colectiva",
+      segundos: 180,
+      destacado: "🤝 Temas: pizzería, partido de fútbol, volcán, fiesta",
+      pasos: [
+        "El docente elige un tema.",
+        "En 30 segundos, todo el curso arma una estatua gigante sobre ese tema, cada uno con una pose distinta.",
+        "Mantienen la estatua 5 segundos y el docente dice cuál es la parte más original.",
+        "Repitan con otro tema."
+      ]
+    },
+    {
+      titulo: "Saludo secreto",
+      segundos: 120,
+      destacado: "🤝 Tres gestos: choque de manos, choque de codos, giro",
+      pasos: [
+        "Formen parejas. Cada pareja practica el saludo: choque de manos, choque de codos y giro.",
+        "Después cada pareja le enseña su saludo a otra.",
+        "Rotan parejas dos veces y cierran con un saludo grupal."
+      ]
+    },
+    {
+      titulo: "Fila de cumpleaños",
+      segundos: 180,
+      destacado: "🤝 Regla: prohibido hablar",
+      pasos: [
+        "Todos de pie. Deben ordenarse por fecha de cumpleaños, de enero a diciembre, sin hablar.",
+        "Pueden usar gestos y los dedos.",
+        "Cuando creen que terminaron, cada uno dice su fecha en orden."
+      ]
+    },
+    {
+      titulo: "Historia con gestos",
+      segundos: 120,
+      destacado: "🤝 Frase de inicio: \"Había una vez un pingüino que quería ser DJ\"",
+      sentado: true,
+      pasos: [
+        "El docente dice la frase inicial.",
+        "Cada estudiante agrega una frase corta y un gesto que la represente; el curso lo repite.",
+        "Terminen la historia entre todos con un final inesperado."
+      ]
+        
+      
+    },
+    {
+      titulo: "La ola del curso",
+      segundos: 120,
+      destacado: "🤝 Tres vueltas: normal, rápida y en cámara lenta",
+      pasos: [
+        "Todos de pie. Cada persona levanta los brazos y se agacha, una tras otra, formando una ola alrededor del aula.",
+        "Segunda vuelta: lo más rápido posible.",
+        "Tercera vuelta: en cámara lenta."
+      ]
+    }
+  ]
+
+};
+
+const cierres = [
+  "Finalizar con tres respiraciones tranquilas.",
+  "Terminar con una pose grupal divertida.",
+  "Compartir qué parte resultó más entretenida.",
+  "Realizar una última secuencia todos juntos.",
+  "Finalizar con una ronda de aplausos."
+];
+
+// ==================================
+// 2. SISTEMA PARA EVITAR REPETICIONES
+// ==================================
+
+let historial = [];
+
+try {
+  historial = JSON.parse(
+    localStorage.getItem("break_historial") || "[]"
+  );
+} catch {
+  historial = [];
+}
+
+let ultimaActividad = null;
+let total = Number(localStorage.getItem("break_total") || 0);
+let rotacion = 0;
+let girando = false;
+
+document.getElementById("totalGeneradas").textContent = total;
+document.getElementById("totalDisponibles").textContent =
+  Object.values(actividades).reduce((t, l) => t + l.length, 0);
+
+function guardarHistorial(id) {
+
+  historial.push(id);
+
+  localStorage.setItem(
+    "break_historial",
+    JSON.stringify(historial)
+  );
+
+  total++;
+  localStorage.setItem("break_total", total);
+
+  document.getElementById("totalGeneradas").textContent = total;
+}
+
+function elegir(lista) {
+  return lista[Math.floor(Math.random() * lista.length)];
+}
+
+function crearActividad(categoria, descripcion = "", duracion = null) {
+
+  let lista = actividades[categoria].concat(obtenerRutinasUsuarioPorCategoria(categoria));
+
+  if (descripcion.toLowerCase().includes("sentad")) {
+    const sentadas = lista.filter(a => a.sentado);
+    if (sentadas.length) lista = sentadas;
+  }
+
+  const base = elegir(lista);
+  const duracionFinal = duracion || "3 minutos";
+
+  const pasos = [
+    ...base.pasos,
+    "Repetí la actividad hasta completar " + duracionFinal + ".",
+    elegir(cierres)
+  ];
+
+  return {
+    titulo: base.titulo,
+    categoria: categoria,
+    emoji: emojis[categoria],
+    duracion: duracionFinal,
+    destacado: base.destacado || "",
+    instrucciones: pasos,
+    materiales: base.materiales || "No necesita materiales.",
+    id: JSON.stringify([categoria, base.titulo])
+  };
+}
+
+function actividadSinRepetir(categoria, descripcion = "", duracion = null) {
+
+  let actividad = null;
+
+  for (let i = 0; i < 200; i++) {
+
+    const nueva = crearActividad(categoria, descripcion, duracion);
+
+    if (!historial.includes(nueva.id)) {
+      actividad = nueva;
+      break;
+    }
+  }
+
+  if (!actividad) {
+    historial = [];
+    localStorage.setItem("break_historial", "[]");
+
+    actividad = crearActividad(categoria, descripcion, duracion);
+  }
+
+  guardarHistorial(actividad.id);
+
+  ultimaActividad = actividad;
+
+  return actividad;
+}
+
+// ==================================
+// 3. MOSTRAR ACTIVIDAD EN MODAL CENTRADO
+// ==================================
+
+function mostrarActividad(actividad, contenedorId) {
+
+  const contenedorRespaldo = document.getElementById(contenedorId);
+  const destinoModal = document.getElementById("contenidoModalExplicacion");
+
+  destinoModal.replaceChildren();
+
+  const tag = document.createElement("span");
+  tag.className = "tag";
+  tag.textContent = actividad.emoji + " " + actividad.categoria;
+
+  const titulo = document.createElement("h4");
+  titulo.textContent = actividad.titulo;
+
+  const duracion = document.createElement("p");
+  duracion.textContent = "⏱ Duración: " + actividad.duracion;
+
+  const encabezado = document.createElement("p");
+  encabezado.textContent = "🎬 Tu actividad lista para hacer:";
+
+  const destacado = document.createElement("p");
+  destacado.className = "highlight";
+  destacado.textContent = actividad.destacado || "";
+
+  const lista = document.createElement("ol");
+
+  actividad.instrucciones.forEach(paso => {
+    const item = document.createElement("li");
+    item.textContent = paso;
+    lista.appendChild(item);
+  });
+
+  const materiales = document.createElement("p");
+  materiales.textContent = "🎒 Materiales: " + actividad.materiales;
+
+  const acciones = document.createElement("div");
+  acciones.className = "result-actions";
+
+  const hablar = document.createElement("button");
+  hablar.type = "button";
+  hablar.textContent = "🔊 Escuchar";
+  hablar.onclick = () => hablarActividad(actividad);
+
+  const otra = document.createElement("button");
+  otra.type = "button";
+  otra.textContent = "🔄 Otra pausa";
+  otra.onclick = () => generarOtra(actividad.categoria, contenedorId);
+
+  acciones.append(hablar, otra);
+
+  destinoModal.append(
+    tag,
+    titulo,
+    duracion,
+    destacado,
+    encabezado,
+    lista,
+    materiales,
+    acciones
+  );
+
+  if (contenedorRespaldo) {
+    contenedorRespaldo.style.display = "none";
+  }
+
+  document.getElementById("modalExplicacion").classList.remove("oculto");
+}
+
+function cerrarModalExplicacion() {
+  document.getElementById("modalExplicacion").classList.add("oculto");
+}
+
+function cerrarModalExplicacionFondo(evento) {
+  if (evento.target.id === "modalExplicacion") {
+    cerrarModalExplicacion();
+  }
+}
+
+function generarOtra(categoria, contenedorId) {
+
+  const nueva = actividadSinRepetir(categoria);
+
+  mostrarActividad(nueva, contenedorId);
+
+}
+
+// ==================================
+// 4. RULETA
+// ==================================
+
+function girarRuleta() {
+
+  if (girando) return;
+
+  girando = true;
+
+  const boton = document.getElementById("spinBtn");
+  const rueda = document.getElementById("wheel");
+
+  boton.disabled = true;
+  boton.textContent = "🎡 GIRANDO...";
+
+  const indice = Math.floor(Math.random() * categorias.length);
+
+  const categoria = categorias[indice];
+
+  const angulo = 360 - (indice * 60 + 30);
+
+  rotacion += 360 * 5 + angulo;
+
+  rueda.style.transform = `rotate(${rotacion}deg)`;
+
+  setTimeout(() => {
+
+    const actividad = actividadSinRepetir(categoria);
+
+    mostrarActividad(actividad, "ruletaResultado");
+
+    boton.disabled = false;
+    boton.textContent = "🎯 GIRAR OTRA VEZ";
+
+    girando = false;
+
+    hablarTexto("La ruleta eligió " + categoria + ". " + actividad.titulo);
+
+  }, 4200);
+
+}
+
+// ==================================
+// 5. ASISTENTE DE VOZ Y GENERACIÓN
+// ==================================
+
+const reconocimiento =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let escuchando = false;
+let voz = null;
+
+function escuchar() {
+
+  if (!reconocimiento) {
+    document.getElementById("voiceStatus").textContent =
+      "Tu navegador no permite reconocimiento de voz. Probá con Google Chrome.";
+    return;
+  }
+
+  if (escuchando) {
+    voz.stop();
+    return;
+  }
+
+  voz = new reconocimiento();
+
+  voz.lang = "es-AR";
+  voz.continuous = false;
+  voz.interimResults = false;
+
+  voz.onstart = () => {
+
+    escuchando = true;
+
+    document.getElementById("voiceBtn").classList.add("listening");
+
+    document.getElementById("voiceBtn").textContent =
+      "🔴 ESCUCHANDO...";
+
+    document.getElementById("voiceStatus").textContent =
+      "Te escucho. Decime qué pausa activa necesitás.";
+
+  };
+
+  voz.onresult = (evento) => {
+
+    const texto =
+      evento.results[0][0].transcript;
+
+    document.getElementById("voiceStatus").textContent =
+      "Solicitud reconocida: " + texto;
+
+    const categoriaDetectada = detectarCategoriaPorTexto(texto);
+    const actividad = actividadSinRepetir(categoriaDetectada, texto, "3 minutos");
+    mostrarActividad(actividad, "personalResultado");
+    hablarTexto("He creado una pausa de " + categoriaDetectada + " para vos. " + actividad.titulo);
+
+  };
+
+  voz.onerror = () => {
+
+    document.getElementById("voiceStatus").textContent =
+      "No pude reconocer la voz. Intentá nuevamente.";
+
+  };
+
+  voz.onend = () => {
+
+    escuchando = false;
+
+    document.getElementById("voiceBtn").classList.remove("listening");
+
+    document.getElementById("voiceBtn").textContent =
+      "🎙️ HABLAR CON BREAK";
+
+  };
+
+  voz.start();
+
+}
+
+function detectarCategoriaPorTexto(textoVoz = "") {
+  const texto = String(textoVoz || "").toLowerCase();
+
+  if (/bail|coreograf|ritmo|danza/.test(texto)) return "Baile";
+  if (/mover|movim|estir|camin|salt|coordin/.test(texto)) return "Movimiento";
+  if (/cantar|canto|cancion|musica|sonido/.test(texto)) return "Canto";
+  if (/trabalengua|palabra|vocal|hablar|rima/.test(texto)) return "Palabras";
+  if (/memoria|atencion|mental|pensar|recordar/.test(texto)) return "Mental";
+  if (/grupo|equipo|companer|colectiv/.test(texto)) return "Grupal";
+
+  return elegir(categorias);
+}
+
+// ==================================
+// 6. ASISTENTE QUE HABLA
+// ==================================
+
+function hablarTexto(texto) {
+
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const mensaje = new SpeechSynthesisUtterance(texto);
+
+  mensaje.lang = "es-AR";
+  mensaje.rate = 0.95;
+  mensaje.pitch = 1;
+
+  window.speechSynthesis.speak(mensaje);
+
+}
+
+function hablarActividad(actividad) {
+
+  const texto = `
+    ${actividad.titulo}.
+    Categoría: ${actividad.categoria}.
+    Duración: ${actividad.duracion}.
+    Instrucciones:
+    ${actividad.instrucciones.join(". ")}.
+    Materiales: ${actividad.materiales}.
+  `;
+
+  hablarTexto(texto);
+
+}
+
+function leerResultado() {
+
+  if (!ultimaActividad) {
+    alert("Primero generá o seleccioná una pausa activa.");
+    return;
+  }
+
+  hablarActividad(ultimaActividad);
+
+}
+
+// ==================================
+// 7. MIS RUTINAS Y LISTAS POR CATEGORÍA
+// ==================================
+
+let rutinasUsuario = [];
+
+try {
+  rutinasUsuario = JSON.parse(localStorage.getItem("break_mis_rutinas") || "[]");
+} catch {
+  rutinasUsuario = [];
+}
+
+let vistaActualLista = [];
+
+function actualizarContadores() {
+  document.getElementById("contadorMisRutinas").textContent = rutinasUsuario.length;
+
+  const totalBase = Object.values(actividades).reduce((t, l) => t + l.length, 0);
+  document.getElementById("totalDisponibles").textContent = totalBase + rutinasUsuario.length;
+}
+
+actualizarContadores();
+
+function obtenerRutinasUsuarioPorCategoria(categoria) {
+  return rutinasUsuario.filter(r => r.categoria === categoria);
+}
+
+function abrirListaCategoria(categoria) {
+  const baseCat = actividades[categoria] || [];
+  const usuarioCat = obtenerRutinasUsuarioPorCategoria(categoria);
+
+  const combinada = baseCat.concat(usuarioCat).map(item => ({
+    ...item,
+    categoria: item.categoria || categoria,
+    emoji: emojis[item.categoria || categoria] || "⚡",
+    segundos: item.segundos || 20
+  }));
+
+  document.getElementById("tituloModalLista").textContent = categoria;
+  vistaActualLista = combinada;
+  dibujarItemsLista(combinada, false);
+  document.getElementById("modalLista").classList.remove("oculto");
+}
+
+function abrirMisRutinas() {
+  document.getElementById("tituloModalLista").textContent = "Mis rutinas";
+  vistaActualLista = rutinasUsuario.map((item, index) => ({
+    ...item,
+    emoji: emojis[item.categoria] || "⚡",
+    segundos: item.segundos || 20,
+    indiceUsuario: index
+  }));
+
+  dibujarItemsLista(vistaActualLista, true);
+  document.getElementById("modalLista").classList.remove("oculto");
+}
+
+function dibujarItemsLista(lista, esMisRutinas) {
+  const contenedor = document.getElementById("contenedorItemsLista");
+  contenedor.replaceChildren();
+
+  if (lista.length === 0) {
+    const vacio = document.createElement("p");
+    vacio.className = "lista-vacia";
+    vacio.textContent = esMisRutinas
+      ? "Todavía no creaste ninguna rutina. Tocá '+ Agregar' o '✨ CREAR MI PAUSA' para crear la primera."
+      : "No hay actividades en esta categoría todavía.";
+    contenedor.appendChild(vacio);
+    return;
+  }
+
+  lista.forEach(item => {
+    const fila = document.createElement("div");
+    fila.className = "fila-pausa";
+    fila.onclick = () => cargarEnAsistente(item);
+
+    const izq = document.createElement("div");
+    izq.className = "fila-pausa-izq";
+
+    const icono = document.createElement("div");
+    icono.className = "fila-pausa-icono";
+    icono.textContent = item.emoji;
+
+    const info = document.createElement("div");
+    info.className = "fila-pausa-info";
+
+    const h4 = document.createElement("h4");
+    h4.textContent = item.titulo;
+
+    const p = document.createElement("p");
+    p.textContent = `${item.segundos} segundos`;
+
+    info.append(h4, p);
+    izq.append(icono, info);
+
+    const der = document.createElement("div");
+    der.className = "fila-pausa-der";
+
+    if (esMisRutinas) {
+      const btnBorrar = document.createElement("button");
+      btnBorrar.type = "button";
+      btnBorrar.className = "btn-borrar-item";
+      btnBorrar.title = "Eliminar rutina";
+      btnBorrar.textContent = "🗑️";
+      btnBorrar.onclick = (e) => {
+        e.stopPropagation();
+        borrarRutinaUsuario(item.indiceUsuario);
+      };
+      der.appendChild(btnBorrar);
+    }
+
+    const barras = document.createElement("span");
+    barras.className = "icono-barras";
+    barras.textContent = "☰";
+    der.appendChild(barras);
+
+    fila.append(izq, der);
+    contenedor.appendChild(fila);
+  });
+}
+
+function cargarEnAsistente(item) {
+  const actividadLista = {
+    titulo: item.titulo,
+    categoria: item.categoria,
+    emoji: item.emoji,
+    duracion: `${item.segundos} segundos`,
+    destacado: item.destacado || `⏱ Duración sugerida: ${item.segundos} segundos`,
+    instrucciones: item.pasos && item.pasos.length ? item.pasos : ["Realizá la pausa activa con atención."],
+    materiales: item.materiales || "No necesita materiales."
+  };
+
+  ultimaActividad = actividadLista;
+  cerrarModales();
+  mostrarActividad(actividadLista, "personalResultado");
+}
+
+function abrirModalCrear() {
+  const tituloActual = document.getElementById("tituloModalLista").textContent;
+  if (categorias.includes(tituloActual)) {
+    document.getElementById("nuevaCategoria").value = tituloActual;
+  }
+
+  cerrarModales();
+  document.getElementById("modalCrear").classList.remove("oculto");
+}
+
+function guardarPausaUsuario() {
+  const titulo = document.getElementById("nuevoTitulo").value.trim();
+  const categoria = document.getElementById("nuevaCategoria").value;
+  const segundos = Number(document.getElementById("nuevaDuracion").value) || 20;
+  const pasoTexto = document.getElementById("nuevoPaso").value.trim();
+
+  if (titulo.length < 2) {
+    alert("Escribí un nombre para tu pausa activa.");
+    return;
+  }
+
+  const nuevaRutina = {
+    titulo: titulo,
+    categoria: categoria,
+    segundos: segundos,
+    destacado: `⭐ Rutina creada por vos (${segundos} segundos)`,
+    pasos: [
+      pasoTexto || "Realizá el ejercicio de forma segura y cómoda.",
+      `Mantené el ritmo durante ${segundos} segundos.`
+    ],
+    materiales: "No necesita materiales."
+  };
+
+  rutinasUsuario.push(nuevaRutina);
+  localStorage.setItem("break_mis_rutinas", JSON.stringify(rutinasUsuario));
+
+  document.getElementById("nuevoTitulo").value = "";
+  document.getElementById("nuevoPaso").value = "";
+
+  actualizarContadores();
+  cerrarModales();
+  alert("¡Pausa activa guardada en Mis rutinas!");
+}
+
+function borrarRutinaUsuario(indice) {
+  rutinasUsuario.splice(indice, 1);
+  localStorage.setItem("break_mis_rutinas", JSON.stringify(rutinasUsuario));
+  actualizarContadores();
+  abrirMisRutinas();
+}
+
+function iniciarListaActual() {
+  if (!vistaActualLista.length) {
+    alert("No hay pausas en esta lista para iniciar.");
+    return;
+  }
+
+  const primera = vistaActualLista[0];
+  cargarEnAsistente(primera);
+  hablarTexto(`Iniciando pausa activa: ${primera.titulo}. Duración: ${primera.segundos} segundos.`);
+}
+
+function cerrarModales() {
+  document.getElementById("modalLista").classList.add("oculto");
+  document.getElementById("modalCrear").classList.add("oculto");
+  document.getElementById("modalExplicacion").classList.add("oculto");
+}
+// ==================================
+// 8. MÚSICA PARA PAUSAS ACTIVAS
+// ==================================
+
+const btnElegirCancion = document.getElementById("btnElegirCancion");
+const menuCanciones = document.getElementById("menuCanciones");
+const opcionesCancion = document.querySelectorAll(".song-option");
+const btnDetenerCancion = document.getElementById("btnDetenerCancion");
+const audioPausa = document.getElementById("audioPausa");
+
+let opcionActual = null;
+
+btnElegirCancion.addEventListener("click", () => {
+  menuCanciones.classList.toggle("oculto");
+  const estaAbierto = !menuCanciones.classList.contains("oculto");
+  btnElegirCancion.setAttribute("aria-expanded", String(estaAbierto));
+  btnElegirCancion.textContent = estaAbierto
+    ? "🎵 Elige una canción ▴"
+    : "🎵 Elige una canción ▾";
+});
+
+function resetearBotonesCancion() {
+  opcionesCancion.forEach((btn) => {
+    btn.classList.remove("activa");
+    btn.textContent = btn.textContent.replace("⏸️", "▶️");
+  });
+}
+
+opcionesCancion.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    const ruta = boton.getAttribute("data-src");
+
+    // Si toca la misma canción que ya está reproduciéndose, la pausa
+    if (opcionActual === boton && !audioPausa.paused) {
+      audioPausa.pause();
+      boton.textContent = boton.textContent.replace("⏸️", "▶️");
+      return;
+    }
+
+    resetearBotonesCancion();
+    audioPausa.src = ruta;
+    audioPausa.play();
+
+    boton.classList.add("activa");
+    boton.textContent = boton.textContent.replace("▶️", "⏸️");
+    opcionActual = boton;
+    btnDetenerCancion.classList.remove("oculto");
+  });
+});
+
+btnDetenerCancion.addEventListener("click", () => {
+  audioPausa.pause();
+  audioPausa.currentTime = 0;
+  resetearBotonesCancion();
+  opcionActual = null;
+  btnDetenerCancion.classList.add("oculto");
+});
+</script>
+
+</body>
+</html>
